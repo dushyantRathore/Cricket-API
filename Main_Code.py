@@ -128,8 +128,8 @@ def get_score():
     return j
 
 
-# Test Rankings
-@app.route('/rankings/test', methods=['GET', 'POST'])
+# Test Rankings - Teams
+@app.route('/rankings/test/team', methods=['GET', 'POST'])
 def test_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Test_Championship"
     ranks_test = get_rankings(url)
@@ -137,12 +137,20 @@ def test_rankings():
     return j
 
 
-# ODI Rankings
-@app.route('/rankings/odi',methods=['GET', 'POST'])
+# ODI Rankings - Teams
+@app.route('/rankings/odi/team',methods=['GET', 'POST'])
 def odi_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_ODI_Championship"
     ranks_odi = get_rankings(url)
     j = jsonify({'ODI Rankings': ranks_odi})
+    return j
+
+# T20 Rankings - Teams
+@app.route('/rankings/t20/team', methods=['GET', 'POST'])
+def t20_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_T20I_Championship"
+    ranks_t20 = get_rankings(url)
+    j = jsonify({'T20 Rankings' : ranks_t20})
     return j
 
 # Run the app
