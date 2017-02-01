@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 # ---------------------  Crawler for Live Scores  ----------------------- #
 
+
 def live_scores():
     url = "http://www.espncricinfo.com/ci/engine/match/index.html?view=live"
     score_file = urllib2.urlopen(url)
@@ -55,9 +56,10 @@ def live_scores():
     return matches
 
 
-# ---------------------  Crawler for Rankings  ----------------------- #
+# ---------------------  Crawler for Team Rankings  ----------------------- #
 
-def get_rankings(u):
+
+def team_rankings(u):
     rank_file = urllib2.urlopen(u)
     rank_html = rank_file.read()
     rank_file.close()
@@ -110,6 +112,107 @@ def get_rankings(u):
 
     return ranks
 
+# --------------------- Crawler for Player Rankings -------------------- #
+
+
+def player_rankings(u, start):
+    rank_file = urllib2.urlopen(u)
+    rank_html = rank_file.read()
+    rank_file.close()
+
+    soup = BeautifulSoup(rank_html, "html.parser")
+
+    data = []
+
+    for table in soup.find_all('table', attrs={'class': 'multicol'}):
+        for td in table.find_all('td', attrs={'style': 'width: 33.33%;text-align:left;vertical-align:top;'}):
+            for table in td.find_all('table', attrs={'class': 'wikitable'}):
+                for tr in table.find_all('tr'):
+                    row = []
+                    for td in tr.find_all('td'):
+                        row.append(td.get_text().encode("utf-8"))
+                    if len(row) == 3:
+                        data.append(row)
+
+    rank = []
+    for i in range(0, 10):
+        rank.append(i + 1)
+
+    # ---------------- Batsmen --------------------#
+    batsmen_name = []
+    batsmen_rating = []
+
+    for i in range(start, start + 10):
+        batsmen_name.append(data[i][1])
+        batsmen_rating.append(data[i][2])
+
+    sequence = ["Rank", "Player", "Rating"]
+    df_bt = pd.DataFrame()
+    df_bt = df_bt.reindex(columns=sequence)
+    df_bt["Rank"] = rank
+    df_bt["Player"] = batsmen_name
+    df_bt["Rating"] = batsmen_rating
+
+    # ---------------- Bowlers --------------------#
+    bowler_name = []
+    bowler_rating = []
+    for i in range(start + 10, start + 20):
+        bowler_name.append(data[i][1])
+        bowler_rating.append(data[i][2])
+
+    sequence = ["Rank", "Player", "Rating"]
+    df_bo = pd.DataFrame()
+    df_bo = df_bo.reindex(columns=sequence)
+    df_bo["Rank"] = rank
+    df_bo["Player"] = bowler_name
+    df_bo["Rating"] = bowler_rating
+
+    # ---------------- All-Rounders--------------------#
+    all_name = []
+    all_rating = []
+    for i in range(start + 20, start + 30):
+        all_name.append(data[i][1])
+        all_rating.append(data[i][2])
+
+    sequence = ["Rank", "Player", "Rating"]
+    df_ar = pd.DataFrame()
+    df_ar = df_ar.reindex(columns=sequence)
+    df_ar["Rank"] = rank
+    df_ar["Player"] = all_name
+    df_ar["Rating"] = all_rating
+
+    # Dictionary Formation
+    ranks_batsmen =[]
+    for i in range(0, len(rank)):
+        dic = {}
+        dic["Rank"] = rank[i]
+        dic["Name"] = batsmen_name[i]
+        dic["Rating"] = batsmen_rating[i]
+        ranks_batsmen.append(dic)
+
+    ranks_bowlers =[]
+    for i in range(0, len(rank)):
+        dic = {}
+        dic["Rank"] = rank[i]
+        dic["Name"] = bowler_name[i]
+        dic["Rating"] = bowler_rating[i]
+        ranks_bowlers.append(dic)
+
+    ranks_allrounders = []
+    for i in range(0, len(rank)):
+        dic = {}
+        dic["Rank"] = rank[i]
+        dic["Name"] = all_name[i]
+        dic["Rating"] = all_rating[i]
+        ranks_allrounders.append(dic)
+
+    final_ranks = []
+    final_ranks.append(ranks_batsmen)
+    final_ranks.append(ranks_bowlers)
+    final_ranks.append(ranks_allrounders)
+
+    return final_ranks
+
 # ---------------------  Flask Code  ----------------------- #
 
 
@@ -132,8 +235,35 @@ def get_score():
 @app.route('/rankings/test/team', methods=['GET', 'POST'])
 def test_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Test_Championship"
-    ranks_test = get_rankings(url)
+    ranks_test = team_rankings(url)
     j = jsonify({'Test Rankings': ranks_test})
+    return j
+
+
+# Test Rankings - Batsmen
+@app.route('/rankings/test/batsmen', methods = ['GET', 'POST'])
+def test_batsmen_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 0)
+    j = jsonify({'Test Batsmen Rankings': ranks[0]})
+    return j
+
+
+# Test Rankings - Bowlers
+@app.route('/rankings/test/bowlers', methods = ['GET', 'POST'])
+def test_bowler_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 0)
+    j = jsonify({'Test Bowler Rankings': ranks[1]})
+    return j
+
+
+# Test Rankings - All-Rounders
+@app.route('/rankings/test/allrounders', methods = ['GET', 'POST'])
+def test_allrounders_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 0)
+    j = jsonify({'Test Bowler Rankings': ranks[2]})
     return j
 
 
@@ -141,17 +271,73 @@ def test_rankings():
 @app.route('/rankings/odi/team',methods=['GET', 'POST'])
 def odi_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_ODI_Championship"
-    ranks_odi = get_rankings(url)
+    ranks_odi = team_rankings(url)
     j = jsonify({'ODI Rankings': ranks_odi})
     return j
+
+
+# # ODI Rankings - Batsmen
+# @app.route('/rankings/odi/batsmen', methods = ['GET', 'POST'])
+# def odi_batsmen_rankings():
+#     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+#     ranks = player_rankings(url, 30)
+#     j = jsonify({'ODI Batsmen Rankings': ranks[0]})
+#     return j
+#
+#
+# # ODI Rankings - Bowlers --------------------  !!!! Error
+# @app.route('/rankings/odi/bowlers', methods = ['GET', 'POST'])
+# def odi_bowler_rankings():
+#     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+#     ranks = player_rankings(url, 30)
+#     j = jsonify({'ODI Bowler Rankings': ranks[1]})
+#     return j
+#
+#
+# # ODI Rankings - All-Rounders
+# @app.route('/rankings/odi/allrounders', methods = ['GET', 'POST'])
+# def odi_allrounders_rankings():
+#     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+#     ranks = player_rankings(url, 30)
+#     j = jsonify({'ODI Bowler Rankings': ranks[2]})
+#     return j
+
 
 # T20 Rankings - Teams
 @app.route('/rankings/t20/team', methods=['GET', 'POST'])
 def t20_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_T20I_Championship"
-    ranks_t20 = get_rankings(url)
-    j = jsonify({'T20 Rankings' : ranks_t20})
+    ranks_t20 = team_rankings(url)
+    j = jsonify({'T20 Rankings': ranks_t20})
     return j
+
+
+# T20 Rankings - Batsmen
+@app.route('/rankings/t20/batsmen', methods = ['GET', 'POST'])
+def t20_batsmen_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 59)
+    j = jsonify({'T20 Batsmen Rankings': ranks[0]})
+    return j
+
+
+# T20 Rankings - Bowlers
+@app.route('/rankings/t20/bowlers', methods = ['GET', 'POST'])
+def t20_bowler_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 59)
+    j = jsonify({'T20 Bowler Rankings': ranks[1]})
+    return j
+
+
+# T20 Rankings - All-Rounders
+@app.route('/rankings/t20/allrounders', methods = ['GET', 'POST'])
+def t20_allrounders_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 59)
+    j = jsonify({'T20 Bowler Rankings': ranks[2]})
+    return j
+
 
 # Run the app
 if __name__ == "__main__":
