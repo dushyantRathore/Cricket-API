@@ -56,6 +56,42 @@ def live_scores():
     return matches
 
 
+# --------------------- Crawler for Latest News ------------------------- #
+
+
+def getNews():
+    url = "https://sports.ndtv.com/cricket/news"
+    news_file = urllib2.urlopen(url)
+    news_html = news_file.read()
+    news_file.close()
+
+    soup = BeautifulSoup(news_html, "html.parser")
+
+    title = soup.find_all("div", attrs={"class" : "post-title"})
+    desc = soup.find_all("div", attrs={"class" : "post-description"})
+
+    t = []
+    for i in title:
+        t.append(i.text)
+
+    d = []
+    for i in desc:
+        d.append(i.text)
+
+    t = map(lambda s: s.strip(), t)
+    d = map(lambda s: s.strip(), d)
+
+    news = []
+    for i in range(0,len(t)):
+        dic = {}
+        dic["ID"] = i
+        dic["Title"] = t[i]
+        dic["Description"] = d[i]
+        news.append(dic)
+
+    return news
+
+
 # ---------------------  Crawler for Team Rankings  ----------------------- #
 
 
@@ -230,6 +266,13 @@ def get_score():
     print "JSON Format" + str(j)
     return j
 
+
+# Latest News
+@app.route("/news", methods=['GET', 'POST'])
+def latest_news():
+    news = getNews()
+    j = jsonify({'Latest News' : news})
+    return j
 
 # Test Rankings - Teams
 @app.route('/rankings/test/team', methods=['GET', 'POST'])
