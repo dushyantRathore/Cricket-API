@@ -223,7 +223,7 @@ def index():
 
 
 # Live Scores
-@app.route('/score', methods=['GET', 'POST'])
+@app.route('/live', methods=['GET', 'POST'])
 def get_score():
     matches = live_scores()
     j = jsonify({'Matches': matches})
