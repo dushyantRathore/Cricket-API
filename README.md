@@ -15,6 +15,8 @@ Make `GET/POST` requests at the given url.
 <br>
 **For Test Bowlers Rankings** - Append `rankings/test/bowlers` to the url.
 <br>
+**For Test All-Rounders Rankings** - Append `rankings/test/allrounders` to the url.
+<br>
 **For ODI or T20 Rankings** - Replace `test` with `odi/t20` in the above steps.
 
 
