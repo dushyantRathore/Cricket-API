@@ -330,22 +330,22 @@ def odi_batsmen_rankings():
     return j
 
 
-# # ODI Rankings - Bowlers --------------------  !!!! Error
-# @app.route('/rankings/odi/bowlers', methods = ['GET', 'POST'])
-# def odi_bowler_rankings():
-#     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
-#     ranks = player_rankings(url, 30)
-#     j = jsonify({'ODI Bowler Rankings': ranks[1]})
-#     return j
-#
-#
-# # ODI Rankings - All-Rounders
-# @app.route('/rankings/odi/allrounders', methods = ['GET', 'POST'])
-# def odi_allrounders_rankings():
-#     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
-#     ranks = player_rankings(url, 30)
-#     j = jsonify({'ODI Bowler Rankings': ranks[2]})
-#     return j
+# ODI Rankings - Bowlers --------------------  !!!! Error
+@app.route('/rankings/odi/bowlers', methods = ['GET', 'POST'])
+def odi_bowler_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 30)
+    j = jsonify({'ODI Bowler Rankings': ranks[1]})
+    return j
+
+
+# ODI Rankings - All-Rounders
+@app.route('/rankings/odi/allrounders', methods = ['GET', 'POST'])
+def odi_allrounders_rankings():
+    url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
+    ranks = player_rankings(url, 30)
+    j = jsonify({'ODI Bowler Rankings': ranks[2]})
+    return j
 
 
 # T20 Rankings - Teams
@@ -361,7 +361,7 @@ def t20_rankings():
 @app.route('/rankings/t20/batsmen', methods = ['GET', 'POST'])
 def t20_batsmen_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
-    ranks = player_rankings(url, 58)
+    ranks = player_rankings(url, 60)
     j = jsonify({'T20 Batsmen Rankings': ranks[0]})
     return j
 
@@ -370,7 +370,7 @@ def t20_batsmen_rankings():
 @app.route('/rankings/t20/bowlers', methods = ['GET', 'POST'])
 def t20_bowler_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
-    ranks = player_rankings(url, 58)
+    ranks = player_rankings(url, 60)
     j = jsonify({'T20 Bowler Rankings': ranks[1]})
     return j
 
@@ -379,7 +379,7 @@ def t20_bowler_rankings():
 @app.route('/rankings/t20/allrounders', methods = ['GET', 'POST'])
 def t20_allrounders_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
-    ranks = player_rankings(url, 58)
+    ranks = player_rankings(url, 60)
     j = jsonify({'T20 Bowler Rankings': ranks[2]})
     return j
 
