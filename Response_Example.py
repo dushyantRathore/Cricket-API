@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "https://powerful-tor-13817.herokuapp.com/news"
+url = "https://powerful-tor-13817.herokuapp.com/live"
 
 headers = {
     'cache-control': "no-cache",
@@ -14,7 +14,7 @@ news = response.text
 
 json_object = json.loads(news)
 
-print json_object["Latest News"][1]["Title"]
+print json_object
 
 
 
