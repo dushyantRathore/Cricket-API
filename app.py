@@ -1,5 +1,4 @@
 from flask import Flask,jsonify,render_template
-from flask_jsonpify import jsonpify
 from bs4 import BeautifulSoup
 import requests
 import urllib2
@@ -265,8 +264,8 @@ def index():
 @app.route('/live', methods=['GET', 'POST'])
 def get_score():
     matches = live_scores()
-    j = jsonpify({'Matches': matches})
-    print "JSONP Format" + str(j)
+    j = jsonify({'Matches': matches})
+    print "JSON Format" + str(j)
     return j
 
 
