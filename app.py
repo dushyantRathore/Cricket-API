@@ -1,12 +1,10 @@
 from flask import Flask,jsonify,render_template
-from flask_cors import CORS, cross_origin
 from bs4 import BeautifulSoup
 import requests
 import urllib2
 import pandas as pd
 
 app = Flask(__name__)
-CORS(app) # Allow CORS support
 
 # ---------------------  Crawler for Live Scores  ----------------------- #
 
@@ -268,6 +266,7 @@ def get_score():
     matches = live_scores()
     j = jsonify({'Matches': matches})
     print "JSON Format" + str(j)
+    j.headers.add('Access-Control-Allow-Origin', '*')
     return j
 
 
