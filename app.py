@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import urllib2
 import pandas as pd
+import json
 
 app = Flask(__name__)
 
@@ -265,8 +266,7 @@ def index():
 def get_score():
     matches = live_scores()
     j = jsonify({'Matches': matches})
-    print "JSON Format" + str(j)
-    j.headers.add('Access-Control-Allow-Origin', '*')
+    j.headers.add('Access-Control-Allow-Origin', '*') # Support for CORS
     return j
 
 
@@ -276,6 +276,7 @@ def latest_news():
     news = getNews()
     j = jsonify({'Latest News' : news})
     return j
+
 
 # Test Rankings - Teams
 @app.route('/rankings/test/team', methods=['GET', 'POST'])
