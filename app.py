@@ -68,27 +68,20 @@ def getNews():
 
     soup = BeautifulSoup(news_html, "html.parser")
 
-    title = soup.find_all("div", attrs={"class" : "post-title"})
-    desc = soup.find_all("div", attrs={"class" : "post-description"})
+    title = soup.find_all("div", attrs={"class": "post-title"})
 
     t = []
     for i in title:
         t.append(i.text)
-
-    d = []
-    for i in desc:
-        d.append(i.text)
-
-    t = map(lambda s: s.strip(), t)
-    d = map(lambda s: s.strip(), d)
 
     news = []
     for i in range(0,len(t)):
         dic = {}
         dic["ID"] = i
         dic["Title"] = t[i]
-        dic["Description"] = d[i]
         news.append(dic)
+
+    print news
 
     return news
 
