@@ -312,7 +312,7 @@ def test_allrounders_rankings():
 def odi_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_ODI_Championship"
     ranks_odi = team_rankings(url)
-    j = jsonify({"Rankings': ranks_odi})
+    j = jsonify({"Rankings": ranks_odi})
     return j
 
 
