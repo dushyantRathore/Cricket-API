@@ -276,7 +276,7 @@ def latest_news():
 def test_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Test_Championship"
     ranks_test = team_rankings(url)
-    j = jsonify({'Test Rankings': ranks_test})
+    j = jsonify({'Rankings': ranks_test})
     return j
 
 
@@ -285,7 +285,7 @@ def test_rankings():
 def test_batsmen_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 0)
-    j = jsonify({'Test Batsmen Rankings': ranks[0]})
+    j = jsonify({'Rankings': ranks[0]})
     return j
 
 
@@ -294,7 +294,7 @@ def test_batsmen_rankings():
 def test_bowler_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 0)
-    j = jsonify({'Test Bowler Rankings': ranks[1]})
+    j = jsonify({'Rankings': ranks[1]})
     return j
 
 
@@ -303,7 +303,7 @@ def test_bowler_rankings():
 def test_allrounders_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 0)
-    j = jsonify({'Test Bowler Rankings': ranks[2]})
+    j = jsonify({'Rankings': ranks[2]})
     return j
 
 
@@ -312,7 +312,7 @@ def test_allrounders_rankings():
 def odi_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_ODI_Championship"
     ranks_odi = team_rankings(url)
-    j = jsonify({'ODI Rankings': ranks_odi})
+    j = jsonify({"Rankings': ranks_odi})
     return j
 
 
@@ -321,7 +321,7 @@ def odi_rankings():
 def odi_batsmen_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 30)
-    j = jsonify({'ODI Batsmen Rankings': ranks[0]})
+    j = jsonify({'Rankings': ranks[0]})
     return j
 
 
@@ -330,7 +330,7 @@ def odi_batsmen_rankings():
 def odi_bowler_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 30)
-    j = jsonify({'ODI Bowler Rankings': ranks[1]})
+    j = jsonify({'Rankings': ranks[1]})
     return j
 
 
@@ -339,7 +339,7 @@ def odi_bowler_rankings():
 def odi_allrounders_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 30)
-    j = jsonify({'ODI Bowler Rankings': ranks[2]})
+    j = jsonify({'Rankings': ranks[2]})
     return j
 
 
@@ -348,7 +348,7 @@ def odi_allrounders_rankings():
 def t20_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_T20I_Championship"
     ranks_t20 = team_rankings(url)
-    j = jsonify({'T20 Rankings': ranks_t20})
+    j = jsonify({'Rankings': ranks_t20})
     return j
 
 
@@ -357,7 +357,7 @@ def t20_rankings():
 def t20_batsmen_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 60)
-    j = jsonify({'T20 Batsmen Rankings': ranks[0]})
+    j = jsonify({'Rankings': ranks[0]})
     return j
 
 
@@ -366,7 +366,7 @@ def t20_batsmen_rankings():
 def t20_bowler_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 60)
-    j = jsonify({'T20 Bowler Rankings': ranks[1]})
+    j = jsonify({'Rankings': ranks[1]})
     return j
 
 
@@ -375,7 +375,7 @@ def t20_bowler_rankings():
 def t20_allrounders_rankings():
     url = "https://en.wikipedia.org/wiki/ICC_Player_Rankings"
     ranks = player_rankings(url, 60)
-    j = jsonify({'T20 Bowler Rankings': ranks[2]})
+    j = jsonify({'Rankings': ranks[2]})
     return j
 
 
