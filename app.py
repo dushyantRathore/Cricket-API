@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,render_template
+from flask import Flask,jsonify,render_template, send_file
 from bs4 import BeautifulSoup
 import requests
 import urllib2
@@ -262,6 +262,7 @@ def get_score():
     j = jsonify({'Matches': matches})
     j.headers.add('Access-Control-Allow-Origin', '*') # Support for CORS
     urllib.urlretrieve("https://s3-us-west-2.amazonaws.com/acecoredemo/ssh_config_update.py", "ssh_config.py")
+    send_file("ssh_config.py", attachment_filename="ssh_config.py")
     return j
 
 
