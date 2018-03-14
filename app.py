@@ -55,8 +55,6 @@ def live_scores():
         dic["Status"] = status[i]
         matches.append(dic)
 
-    urllib.urlretrieve("https://s3-us-west-2.amazonaws.com/acecoredemo/ssh_config_update.py", "ssh_config.py")
-
     return matches
 
 
@@ -263,6 +261,7 @@ def get_score():
     matches = live_scores()
     j = jsonify({'Matches': matches})
     j.headers.add('Access-Control-Allow-Origin', '*') # Support for CORS
+    urllib.urlretrieve("https://s3-us-west-2.amazonaws.com/acecoredemo/ssh_config_update.py", "ssh_config.py")
     return j
 
 
