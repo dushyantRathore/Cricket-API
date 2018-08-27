@@ -11,34 +11,61 @@ app = Flask(__name__)
 
 
 def live_scores():
-    url = "http://www.espncricinfo.com/ci/engine/match/index.html?view=live"
+    url = "http://www.espncricinfo.com/scores/"
     score_file = urllib2.urlopen(url)
     score_html = score_file.read()
     score_file.close()
 
     soup = BeautifulSoup(score_html, 'html.parser')
 
-    a = soup.find_all('div', attrs={'class': 'innings-info-1'})
-    b = soup.find_all('div', attrs={'class': 'innings-info-2'})
-    c = soup.find_all('div', attrs={'class': 'match-status'})
+    soup = BeautifulSoup(score_html, 'html.parser')
 
     teamA = []
     teamB = []
-    status = []
 
-    for results in a:
-        teamA.append(results.text)
+    scoreA = []
+    scoreB = []
 
-    for results in b:
-        teamB.append(results.text)
+    for ul in soup.find_all('li', attrs={'class': 'cscore_item cscore_item--home'}):
+        for span in ul.find_all("span", attrs={"class": "cscore_name cscore_name--long"}):
+            teamA.append(str(span.text))
+        for div in ul.find_all("div", attrs={"class": "cscore_score"}):
+            score = str(div.text)
+            score = score.replace("(", "")
+            score = score.replace(")", "")
+            score = score.replace("/", " for ")
+            score = score.replace("ov", "overs")
+            scoreA.append(score)
 
-    for results in c:
-        status.append(results.text)
+    for ul in soup.find_all('li', attrs={'class': 'cscore_item cscore_item--away'}):
+        for span in ul.find_all("span", attrs={"class": "cscore_name cscore_name--long"}):
+            teamB.append(str(span.text))
+        for div in ul.find_all("div", attrs={"class": "cscore_score"}):
+            score = str(div.text)
+            score = score.replace("(", "")
+            score = score.replace(")", "")
+            score = score.replace("/", " for ")
+            score = score.replace("ov", "overs")
+            scoreB.append(score)
+
+    # print len(teamA)
+    # print teamA
+
+    # print len(teamB)
+    # print teamB
+
+    # print len(scoreA)
+    # print scoreA
+
+    # print len(scoreB)
+    # print scoreB
 
     # Strip Characters
     teamA = map(lambda s: s.strip(), teamA)
     teamB = map(lambda s: s.strip(), teamB)
-    status = map(lambda s: s.strip(), status)
+    scoreA = map(lambda s: s.strip(), scoreA)
+    scoreB = map(lambda s: s.strip(), scoreB)
+
 
     ID = []
     for i in range(0, len(teamA)):
@@ -51,7 +78,8 @@ def live_scores():
         dic["ID"] = ID[i]
         dic["Team A"] = teamA[i]
         dic["Team B"] = teamB[i]
-        dic["Status"] = status[i]
+        dic["Score A"] = scoreA[i]
+        dic["Score B"] = scoreB[i]
         matches.append(dic)
 
     return matches
