@@ -19,8 +19,6 @@ def live_scores():
 
     soup = BeautifulSoup(score_html, 'html.parser')
 
-    soup = BeautifulSoup(score_html, 'html.parser')
-
     teamA = []
     teamB = []
 
@@ -49,41 +47,24 @@ def live_scores():
             score = score.replace("ov", "overs")
             scoreB.append(score)
 
-    # print len(teamA)
-    # print teamA
-
-    # print len(teamB)
-    # print teamB
-
-    # print len(scoreA)
-    # print scoreA
-
-    # print len(scoreB)
-    # print scoreB
-
     # Strip Characters
     teamA = map(lambda s: s.strip(), teamA)
     teamB = map(lambda s: s.strip(), teamB)
     scoreA = map(lambda s: s.strip(), scoreA)
     scoreB = map(lambda s: s.strip(), scoreB)
 
+    response = []
 
-    ID = []
-    for i in range(0, len(teamA)):
-        ID.append(i+1)
+    for i in range(0,len(teamA)):
+        match = {}
+        match["Team A"] = teamA[i]
+        match["Team B"] = teamB[i]
+        match["Score A"] = scoreA[i]
+        match["Score B"] = scoreB[i]
 
-    matches = []
+        response.append(match)
 
-    for i in range(0, len(ID)):
-        dic = {}
-        dic["ID"] = ID[i]
-        dic["Team A"] = teamA[i]
-        dic["Team B"] = teamB[i]
-        dic["Score A"] = scoreA[i]
-        dic["Score B"] = scoreB[i]
-        matches.append(dic)
-
-    return matches
+    return str(response)
 
 
 # --------------------- Crawler for Latest News ------------------------- #
