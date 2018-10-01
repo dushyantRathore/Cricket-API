@@ -10,6 +10,7 @@ headers = {
 
 response = requests.request("POST", url, headers=headers)
 
+### the response is in the form of python dictionary which will later be dumped to json object
 news = response.text
 
 json_object = json.loads(news)
