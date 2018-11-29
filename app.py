@@ -393,10 +393,9 @@ def t20_allrounders_rankings():
 
 
 # Test for Google Push Notifications
-@app.route('/notifications')
+@app.route('/notifications', methods=["GET", "POST"])
 def notifications():
     print('in notifications()')
-    sys.stdout.flush()
     try:
         chan_id = request.args.get('X-Goog-Channel-ID', 'empty')
         msg_num = request.args.get('X-Goog-Message-Number', 'empty')
