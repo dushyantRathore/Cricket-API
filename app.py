@@ -397,7 +397,7 @@ def t20_allrounders_rankings():
 def notifications():
     print('in notifications()')
     try:
-        chan_id = request.args.get('X-Goog-Channel-ID', 'empty')
+        chan_id = request.args.get('X-Goog-Channel-ID')
         msg_num = request.args.get('X-Goog-Message-Number', 'empty')
         rid = request.args.get('X-Goog-Resource-ID', 'empty')
         state = request.args.get('X-Goog-Resource-State', 'empty')
