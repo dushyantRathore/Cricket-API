@@ -415,7 +415,6 @@ def notifications():
         print('goog_chan_exp: {}'.format(goog_chan_exp))
         print('goog_chan_token: {}'.format(goog_chan_token))
 
-
     except Exception as e:
         print('notifications() exception: {}'.format(e))
 
