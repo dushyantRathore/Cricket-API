@@ -5,6 +5,7 @@ import urllib2
 import pandas as pd
 import json
 import urllib
+import sys
 
 app = Flask(__name__)
 
@@ -395,7 +396,7 @@ def t20_allrounders_rankings():
 @app.route('/notifications')
 def notifications():
     print('in notifications()')
-
+    sys.stdout.flush()
     try:
         chan_id = request.args.get('X-Goog-Channel-ID', 'empty')
         msg_num = request.args.get('X-Goog-Message-Number', 'empty')
