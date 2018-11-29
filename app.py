@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,render_template, send_file
+from flask import Flask, jsonify, render_template, send_file, request
 from bs4 import BeautifulSoup
 import requests
 import urllib2
@@ -389,6 +389,39 @@ def t20_allrounders_rankings():
     ranks = player_rankings(url, 60)
     j = jsonify({'Rankings': ranks[2]})
     return j
+
+
+# Test for Google Push Notifications
+@app.route('/notifications')
+def notifications():
+    print('in notifications()')
+
+    try:
+        chan_id = request.args.get('X-Goog-Channel-ID', 'empty')
+        msg_num = request.args.get('X-Goog-Message-Number', 'empty')
+        rid = request.args.get('X-Goog-Resource-ID', 'empty')
+        state = request.args.get('X-Goog-Resource-State', 'empty')
+        resource_uri = request.args.get('X-Goog-Resource-URI', 'empty')
+        goog_changed = request.args.get('X-Goog-Changed', 'empty')
+        goog_chan_exp = request.args.get('X-Goog-Channel-Expiration', 'empty')
+        goog_chan_token = request.args.get('X-Goog-Channel-Token', 'empty')
+
+        print('chan_id: {}'.format(chan_id))
+        print('msg_num: {}'.format(msg_num))
+        print('rid: {}'.format(rid))
+        print('state: {}'.format(state))
+        print('resource_uri: {}'.format(resource_uri))
+        print('goog_changed: {}'.format(goog_changed))
+        print('goog_chan_exp: {}'.format(goog_chan_exp))
+        print('goog_chan_token: {}'.format(goog_chan_token))
+
+
+    except Exception as e:
+        print('notifications() exception: {}'.format(e))
+
+    print('leaving notifications()')
+
+    return jsonify(result='done')
 
 
 # Run the app
