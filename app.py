@@ -92,7 +92,7 @@ def getNews():
         dic["Title"] = t[i]
         news.append(dic)
 
-    print news
+    print(news)
 
     return news
 
@@ -252,7 +252,7 @@ def player_rankings(u, start):
     final_ranks.append(ranks_bowlers)
     final_ranks.append(ranks_allrounders)
 
-    print final_ranks
+    print(final_ranks)
 
     return final_ranks
 
