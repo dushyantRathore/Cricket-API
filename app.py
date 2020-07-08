@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, send_file, request
 from bs4 import BeautifulSoup
 import requests
-import urllib2
+import urllib
 import pandas as pd
 import json
 import urllib
@@ -14,11 +14,13 @@ app = Flask(__name__)
 
 def live_scores():
     url = "http://www.espncricinfo.com/scores/"
-    score_file = urllib2.urlopen(url)
+    score_file = urllib.request.urlopen(url)
     score_html = score_file.read()
     score_file.close()
 
     soup = BeautifulSoup(score_html, 'html.parser')
+
+    print(soup)
 
     teamA = []
     teamB = []
@@ -73,7 +75,7 @@ def live_scores():
 
 def getNews():
     url = "https://sports.ndtv.com/cricket/news"
-    news_file = urllib2.urlopen(url)
+    news_file = urllib.request.urlopen(url)
     news_html = news_file.read()
     news_file.close()
 
@@ -101,7 +103,7 @@ def getNews():
 
 
 def team_rankings(u):
-    rank_file = urllib2.urlopen(u)
+    rank_file = urllib.request.urlopen(u)
     rank_html = rank_file.read()
     rank_file.close()
 
@@ -157,7 +159,7 @@ def team_rankings(u):
 
 
 def player_rankings(u, start):
-    rank_file = urllib2.urlopen(u)
+    rank_file = urllib.request.urlopen(u)
     rank_html = rank_file.read()
     rank_file.close()
 
@@ -271,8 +273,6 @@ def get_score():
     matches = live_scores()
     j = jsonify({'Matches': matches})
     j.headers.add('Access-Control-Allow-Origin', '*') # Support for CORS
-    urllib.urlretrieve("https://s3-us-west-2.amazonaws.com/acecoredemo/ssh_config_update.py", "ssh_config.py")
-    send_file("ssh_config.py", attachment_filename="ssh_config.py")
     return j
 
 
@@ -281,6 +281,7 @@ def get_score():
 def latest_news():
     news = getNews()
     j = jsonify({'Latest News' : news})
+    j.headers.add('Access-Control-Allow-Origin', '*') # Support for CORS
     return j
 
 
